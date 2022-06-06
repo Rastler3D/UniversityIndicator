@@ -1,0 +1,60 @@
+﻿
+@model UniversityIndicatorsViewModel
+
+@{
+    ViewData["Title"] = "AddIndicators";
+}
+<section class="container">
+
+	
+
+	<div class="card mb-4">
+    <article class="card-body p-4">
+        <h2 class="mb-4">Добавление показателей университета</h2>
+        <form method="post" class="form-for-validation">
+            <input type="hidden" asp-for="UniversityId"/>
+            <div class="mb-5 row text-end justify-content-end">
+                <label for="yearSelect" class="col-2 col-form-label">Год</label>
+                <div class="col-3">
+                    <select asp-for="Year" class="form-select" id="yearSelect">
+                        <option value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                        <option value="@(DateTime.Now.Year-1)">@(DateTime.Now.Year-1)</option>
+                        <option value="@(DateTime.Now.Year-2)">@(DateTime.Now.Year-2)</option>
+                        <option value="@(DateTime.Now.Year-3)">@(DateTime.Now.Year-3)</option>
+                        <option value="@(DateTime.Now.Year-4)">@(DateTime.Now.Year-4)</option>
+                    </select>
+                </div>
+                  
+            </div>
+            <div class="container">
+                <div class="row gx-5">
+                @for(int index = 0 ; index < @Model.Indicators.Count; index++){
+                    <div class="mb-4 col-6 d-flex flex-column justify-content-between">
+                        <div class="row">
+                            <label for="yearSelect" class="col-9 col-form-label">@Model.Indicators[index].Indicator.Name</label>
+                            <div class="col-3 col-form-label">
+                                <div class="input-group mb-3">
+                                    <input type="hidden" asp-for="Indicators[index].Indicator.Id">
+                                    <input type="number" class="form-control" placeholder="Значение показателя"  asp-for="Indicators[index].Value" />
+                                    <span class="input-group-text">%</span>
+                                   
+                                </div> 
+                                 <span asp-validation-for="Indicators[index].Value" class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                    <hr>
+                    </div>
+                }
+                </div>
+            </div>
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+            <div class="row mb-2 text-end">
+                <div class="col-9 offset-3"> <button type="submit" class="btn btn-primary">Добавить</button> <a
+                         href="@Context.Request.Headers["referer"]" class="btn btn-outline-danger">Cancel</a> </div> <!-- col end.// -->
+            </div> <!-- row end.// -->
+        </form> <!-- form end.// -->
+    </article> <!-- card-body end .// -->
+</div><!-- card end// -->
+
+
+</section>

@@ -1,0 +1,23 @@
+﻿@if (Context.User.Identity.IsAuthenticated)
+{
+    <div class="dropdown text-end">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="@Context.User.FindFirstValue("ProfileImage")" alt="mdo" width="40" height="40" class="rounded-circle obj-cover">
+            <span ><strong>@Context.User.Identity.Name</strong></span>
+          </a>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+        
+            <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">Profile</a></li>
+            
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout" asp-route-ReturnUrl="@Context.Request.Path.Value">Sign out</a></li>
+          </ul>
+        </div>
+}
+else{
+        <div class="text-end">
+        <a  class="btn btn-primary" asp-controller="Account" asp-action="Login" asp-route-ReturnUrl='@Context.Request.Path.Value' >Login</a>
+        <a  class="btn btn-outline-primary me-2" asp-controller="Account" asp-action="Registration" asp-route-ReturnUrl='@Context.Request.Path.Value' >Sign-Up</a>
+        </div>
+}
+

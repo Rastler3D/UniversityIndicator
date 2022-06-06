@@ -1,0 +1,98 @@
+﻿@model University
+<section class="content-main" style="max-width: 720px">
+
+	
+
+	<div class="card mb-4">
+    <article class="card-body p-4">
+        <h2 class="mb-4">Добавление университета</h2>
+        <form method="post" enctype="multipart/form-data" class="form-for-validation">
+            <div class="row mb-4"> <label class="col-3 col-form-label">Название</label>
+                <div class="col-9"> <input type="text" class="form-control" placeholder="Название" asp-for="Name"> </div>
+                <span asp-validation-for="Name" class="invalid-feedback"></span>
+                <!-- col end.// -->
+            </div> <!-- row end.// -->
+            <div class="row mb-4"> <label class="col-3 col-form-label">Страна</label>
+                <div class="col-9">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Страна"  asp-for="Country" />
+                        <span class="input-group-text">$</span>
+                        <span asp-validation-for="Country" class="invalid-feedback"></span>
+                    </div> 
+                </div>
+                <!-- col end.// -->
+            </div> <!-- row end.// -->
+            <div class="row mb-4"> <label class="col-3 col-form-label">Город</label>
+                 <div class="col-9">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control"  placeholder="Город" asp-for="City"/>
+                        <span class="input-group-text">шт.</span>
+                        <span asp-validation-for="City" class="invalid-feedback"></span>
+                    </div>
+                </div>
+                    <!-- col end.// -->
+            </div> <!-- row end.// -->
+             <div class="row mb-4"> <label class="col-3 col-form-label">Веб-сайт</label>
+                 <div class="col-9">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">www.</span>
+                        <input type="text" class="form-control"  placeholder="example.ru" asp-for="Website"/>
+                        <span asp-validation-for="City" class="invalid-feedback"></span>
+                    </div>
+                </div>
+                    <!-- col end.// -->
+            </div> <!-- row end.// -->
+            <div class="row mb-4"> <label class="col-3 col-form-label">Логотип<br> <small class="text-muted">(Max 10
+                        mb)</small> </label>
+                <div class="col-9">
+                    <div class="gallery-uploader-wrap d-inline-block"  id="previewImages">   
+                    </div>
+                    <div class="gallery-uploader-wrap d-inline-block" >
+                       
+                        <label style="width: 80px; height: 80px" class="uploader-img">
+                            <input type="file" name="uploadedFile" asp-for="Image"  accept=".png,.jpeg,.jpg" hidden onchange="previewImage(event.target)">
+                            <span asp-validation-for="Image" class="invalid-feedback"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#999" width="32" height="32" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M16.83 4L15 2H9L7.17 4H2v16h20V4h-5.17zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z">
+                                </path>
+                            </svg>
+                        </label>
+                    </div><!-- gallery-uploader-wrap //end -->
+                   
+                </div> <!-- col end.// -->
+            </div> <!-- row end.// -->
+            <div class="row mb-4">
+                <label class="col-3 col-form-label">Описание</label>
+                <div class="col-9">
+                    <textarea class="form-control" rows="4" placeholder="Описание вуза" asp-for="Description"></textarea>
+                    <span asp-validation-for="Description" class="invalid-feedback"></span>
+                </div>
+
+                <!-- col end.// -->
+            </div> <!-- row end.// -->
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+            <div class="row mb-2 text-end">
+                <div class="col-9 offset-3"> <button type="submit" class="btn btn-primary">Добавить</button> <a
+                       href="@Context.Request.Headers["referer"]" class="btn btn-outline-danger">Cancel</a> </div> <!-- col end.// -->
+            </div> <!-- row end.// -->
+        </form> <!-- form end.// -->
+    </article> <!-- card-body end .// -->
+</div><!-- card end// -->
+
+
+</section>
+
+
+<script>
+    let images;
+ function previewImage(el) {
+    let template = jQuery.validator.format(`<label style="width: 80px; height: 80px" class="uploader-img">
+                            <img width="100" src="{0}" />
+                            </label>`);
+    let preview = document.getElementById('previewImages');
+    let files = [...el.files];
+    images = files.map(x => URL.createObjectURL(x)).map(x => jQuery.parseHTML(template(x))[0]);
+    preview.replaceChildren(...images);
+  };
+</script>

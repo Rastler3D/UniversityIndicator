@@ -1,0 +1,114 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #141432;
+    background-color: #f8f9fa;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+}
+.fit-available {
+    min-height: 78vh;
+}
+.validation {
+    color: #dc3545;
+    font-size: 1.3rem;
+}
+.validation ul {
+    list-style: none;
+    padding: 0px;
+}
+.tr-all-5{
+    transition:all 0.5s ease-out;
+}
+.h-fit{
+    height:fit-content;
+}
+*[data-order-status = "Accepted"] {
+    color: #98530c;
+    background-color: #ffe8d0;
+    border-color: #fedcb9;
+}
+
+*[data-order-status = "Canceled"] {
+    color: #920000;
+    background-color: #fdcccc;
+    border-color: #fbb3b3;
+}
+
+*[data-order-status = "Completed"] {
+    color: #006d0e;
+    background-color: #ccf0d1;
+    border-color: #b3e9b9;
+}
+
+*[data-user-status = "Inactive"] {
+    color: #920000;
+    background-color: #fdcccc;
+    border-color: #fbb3b3;
+}
+
+*[data-user-status = "Active"] {
+    color: #006d0e;
+    background-color: #ccf0d1;
+    border-color: #b3e9b9;
+}
+*[data-user-role = "Customer"] {
+    color: #98530c;
+    background-color: #ffe8d0;
+    border-color: #fedcb9;
+}
+
+*[data-user-role = "Admin"] {
+    color: #920000;
+    background-color: #fdcccc;
+    border-color: #fbb3b3;
+}
+
+*[data-user-role = "Seller"] {
+    color: #006d0e;
+    background-color: #ccf0d1;
+    border-color: #b3e9b9;
+}
+*[data-product-availablility="True"] {
+    color: #00a524 !important;
+}
+*[data-product-availablility="False"] {
+    color: #920000 !important;
+}
+b {
+    font-weight: 500;
+}
+*[data-university-status="Confirmed"] {
+    color: #006d0e !important;
+    background-color: #ccf0d1 !important;
+    border-color: #b3e9b9 !important;
+}
+*[data-university-status="Unconfirmed"] {
+    color: #920000 !important;
+    background-color: #fdcccc !important;
+    border-color: #fbb3b3 !important;
+}

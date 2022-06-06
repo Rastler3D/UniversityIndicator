@@ -1,0 +1,80 @@
+﻿@model University
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+ 
+<div class="container">
+    
+    <div class="row gx-5">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body d-flex align-items-center flex-column">
+                    <div class="text-center">
+                        <img src="@Model.Image" class="img-thumbnail border-0" width="75" height="75" />
+                        <p class="mt-3 fs-4">@Model.Name</p>
+                    </div>
+                    <div class="p-5 pt-3 pb-3 bg-secondary" style="--bs-bg-opacity: 0.05;">
+                        <dl class="row">
+                            <dt class="col-6">Страна</dt>
+                            <dd class="col-6">@Model.Country</dd>
+                            <dt class="col-6">Город</dt>
+                            <dd class="col-6">@Model.City</dd>
+                            <dt class="col-6">Веб-сайт</dt>
+                            <dd class="col-6">@Model.Website</dd>
+                            
+                        </dl>
+                    </div>
+                    <div class="align-self-start">
+                        <h5 class="text-start m-3 d-inline-block" style="border-bottom: 2px solid #d60b0a;">Описание</h5>
+                        <div style="max-height: 500px; overflow: overlay;">
+                            @Model.Description
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card">
+                 <div class="card-body">
+                    @if (Context.User.IsInRole("Admin"))
+                    {
+                        <div class="text-end mb-5">
+                            <a asp-controller="University" asp-action="UpdateIndicators" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="material-icons md-refresh"></i>Изменить показатели</a>
+                            <a asp-controller="University" asp-action="AddIndicators" asp-route-id="@Model.Id" class="btn btn-primary"><i class="material-icons md-plus"></i>Добавить показатели</a>
+                        </div>
+                    }
+                    <div class="container mt-3">
+                            @if (Model.Indicators.Any(x => x.Year == DateTime.Now.Year))
+                            {
+                            <div class="row" style="max-height: 700px; overflow: overlay;">
+                                @foreach (var indicator in Model.Indicators.GroupBy(x => x.Year).First(x => x.Key == DateTime.Now.Year))
+                                {
+                                    <div class="mb-4 col-12 d-flex flex-column justify-content-between">
+                                        <dl class="row d-flex align-items-center mb-0">
+                                           <dt class="col-10 mb-3">@indicator.Indicator.Name</dt>
+                                            <dd class="col-2 text-center mb-3">@indicator.Value</dd>
+                                        </dl>
+                                    <hr>
+                                    </div>
+                                }   
+                            </div>
+                            <div class="text-end mt-3 mb-5">
+                                <a type="button" asp-controller="University" asp-action="Polynom" asp-route-id="@Model.Id" class="btn btn-success">Спрогнозировать значения</a>
+                            </div>
+                            }
+                            else
+                            {
+                               <h3>Нет данных за данный период</h3>
+                            }
+
+                    </div>
+                    <canvas id="myChart" width="400" height="0"></canvas>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

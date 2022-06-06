@@ -1,0 +1,218 @@
+﻿@model User
+@section Styles{
+    <style type="text/css">
+        section.padding-y {
+          border-bottom:30px solid #e9ecef; padding-top:60px!important; padding-bottom:60px!important;
+        }
+
+        .section-header, .section-footer {
+            box-shadow: 0 2px 10px rgb(51 51 51 / 10%);
+            position: relative;
+        }
+        .b-example-divider {
+          height: 3rem;
+          background-color: rgba(0, 0, 0, .1);
+          border: solid rgba(0, 0, 0, .15);
+          border-width: 1px 0;
+          box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .bi {
+          vertical-align: -.125em;
+          fill: currentColor;
+        }
+
+        .rounded-4 { border-radius: .5rem; }
+        .rounded-5 { border-radius: .75rem; }
+        .rounded-6 { border-radius: 1rem; }
+
+        .modal-sheet .modal-dialog {
+          width: 380px;
+          transition: bottom .75s ease-in-out;
+        }
+        .modal-sheet .modal-footer {
+          padding-bottom: 2rem;
+        }
+
+        .modal-alert .modal-dialog {
+          width: 380px;
+        }
+
+        .border-right { border-right: 1px solid #eee; }
+
+        .modal-tour .modal-dialog {
+          width: 380px;
+        }
+    </style>
+}
+<div class="container"> 
+     <div class="content-header">
+			<h2 class="content-title">Профиль</h2>
+			
+		</div>
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <article class="card">
+                <div class="card-body"> 
+                    <form> 
+                        <div class="row">
+                            <div class="col-lg-8"> 
+                                <div class="row gx-3" id="Profile" >
+                                    
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" >First name</label>
+                                        <input class="form-control" type="text" placeholder="Type here" disabled data-ajax-for="FirstName" value="@Model.FirstName">
+                                    </div> <!-- col .// -->
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" >Last name</label>
+                                        <input class="form-control" type="text" placeholder="Type here" disabled data-ajax-for="LastName" value="@Model.LastName">
+                                    </div> <!-- col .// -->
+                                    <div class="col-lg-6 col-md-6 mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input class="form-control" type="email" placeholder="example@mail.com" disabled  data-ajax-for="Email" value="@Model.Email">
+                                    </div> <!-- col .// --> 
+                                    <div class="col-lg-6 col-md-6 mb-3">
+                                        <label class="form-label" >Phone</label>
+                                        <input class="form-control" type="tel" placeholder="+1234567890" disabled data-ajax-for="Phone">
+                                    </div> <!-- col .// --> 
+                                   
+                                    
+                                <button class="btn btn-primary w-auto" type="button" data-form-state="disabled" onclick="toggleProfileForm(event.currentTarget)">Edit Profile</button> 
+                                </div> <!-- row.// --> 
+                                <div class="row gx-3 mt-4" id="Password"  style="display:none;">
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label">Old Password</label>
+                                        <input class="form-control" type="password" placeholder="Old Password" data-ajax-for="OldPassword" >
+                                    </div> <!-- col .// -->
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label">New password</label>
+                                        <input class="form-control" type="password" placeholder="New password" data-ajax-for="NewPassword" >
+                                    </div> <!-- col .// -->
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label">Repeat new password</label>
+                                        <input class="form-control" type="password" placeholder="New password" data-ajax-for="ConfirmPassword">
+                                    </div> <!-- col .// -->
+
+                                     <!-- col .// --> 
+                                     <!-- col .// --> 
+                                   
+                                     <!-- col .// -->
+                                <button type="button" class="btn btn-primary w-auto" onclick="changePassword();togglePasswordForm();"> Change Password </button>
+                                </div>
+                            </div> <!-- col.// --> 
+                            <aside class="col-lg-4">
+                                <div class="text-lg-center mt-3">
+                                    <img class="img-lg mb-3 img-avatar" id="profileImage" src='@(Model.ProfileImage??"/images/person.svg")' alt="User Photo" ></img>
+                                    <div>
+                                        <input id="profileImageFile" data-ajax-for="profileImageFile" type="file"  onchange="previewImage(event.currentTarget)" hidden/>
+                                        <label for="profileImageFile" class="btn btn-sm btn-light" id="uploadImage" style="display:none;"> <i class="fa fa-camera"></i> Upload </label>
+                                         
+                                    </div>
+                                </div>
+                            </aside> <!-- col.// --> 
+
+                        </div> <!-- row.// --> 
+                        
+                    </form> <hr class="my-4">
+                    <div class="row" style="max-width:920px">
+                        <div class="col-md">
+                            <article class="box mb-3 bg-light">
+                                <button type="button" id="changePassword" data-form-state="disabled" class="btn float-end btn-light btn-sm" onclick="togglePasswordForm()" >Change</button>
+                                <p class="title mb-0">Password</p>
+                                <small class="text-muted d-block" style="width:70%">You can reset or change your password by clicking here</small>
+                            </article>
+                        </div> <!-- col.// --> 
+                        <div class="col-md">
+                            <article class="box mb-3 bg-light">
+                                <button type="button" class="btn float-end btn-outline-danger btn-sm" onclick="toggleDeleteModal()">Deactivate</button>
+                                <p class="title mb-0">Remove account</p> 
+                                <small class="text-muted d-block" style="width:70%">Once you delete your account, there is no going back.</small>
+                            </article> 
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// --> 
+                 </div> <!-- card-body .// --> 
+            </article> <!-- card .// --> 
+        </div>
+    </div>
+</div>
+<script defer>
+    function previewImage(el) {
+        var preview = $('#profileImage')[0];
+        preview.src = URL.createObjectURL(el.files[0]);
+        preview.onload = function() {
+          URL.revokeObjectURL(preview.src) // free memory
+        }
+    }
+    function toggleDeleteModal(){
+        let el = $("#deleteModal")[0];
+        
+        if(el.dataset.modalState== "visible"){
+            el.dataset.modalState = "unvisible";
+            el.hidden=true;
+        }
+        else{
+            el.dataset.modalState = "visible";
+            el.hidden=false;
+        }
+    }
+    function toggleProfileForm(el){
+        if(el.dataset.formState== "enabled"){
+            el.textContent= "Edit Profile";
+            el.dataset.formState = "disabled";
+            $("#uploadImage")[0].style.display="none";
+            document.querySelectorAll("#Profile input").forEach(x=>x.disabled = true);
+            updateUser();
+        }
+        else{
+            el.textContent=  "Save changes";
+            el.dataset.formState = "enabled"
+            $("#uploadImage")[0].style.display="block";
+            document.querySelectorAll("#Profile input").forEach(x=>x.disabled = false);
+            
+        }
+    }
+        function togglePasswordForm(){
+        let el = $("#changePassword")[0];
+        if(el.dataset.formState== "enabled"){
+            el.textContent= "Edit Profile";
+            el.dataset.formState = "disabled";
+            document.querySelector("#Password").style.display = "none";
+        }
+        else{
+            el.textContent=  "Save changes";
+            el.dataset.formState = "enabled";
+            document.querySelector("#Password").style.display = "block";
+            
+        }
+    }
+     function changePassword(){
+        $.ajax({ 
+		url: "/Account/ChangePassword",
+		method: "POST", 
+		data: {
+            "OldPassword":$("input[data-ajax-for='OldPassword']").val(),
+			"NewPassword":$("input[data-ajax-for='NewPassword']").val(),
+            "ConfirmPassword":$("input[data-ajax-for='ConfirmPassword']").val()
+            }
+	});
+    }
+    function updateUser(){
+        let image = $("input[data-ajax-for='profileImageFile']")[0].files[0];
+        let formData = new FormData();
+            if(image!=null)
+                formData.append("profileImageFile",image,"ProfileImage");
+			formData.append("firstName",$("input[data-ajax-for='FirstName']").val());
+            formData.append("lastName",$("input[data-ajax-for='LastName']").val());
+            formData.append("email",$("input[data-ajax-for='Email']").val());
+
+        $.ajax({ 
+		url: "/Account/Update",
+		method: "POST",
+        processData: false,
+        contentType: false,
+		data: formData
+            
+		
+	});
+    }
+</script>

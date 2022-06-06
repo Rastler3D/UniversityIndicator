@@ -1,0 +1,17 @@
+﻿@model University
+<tr style="vertical-align:middle;">
+    <td>@Model.Id</td>
+    <td width="40%">
+        <a asp-controller="University" asp-action="Details" asp-route-id="@Model.Id" class="itemside" style="color:black; text-decoration:none;">
+            <div class="left">
+                <img src="@Model.Image" class="img-sm img-avatar" alt="UniverPic">
+            </div>
+            <div class="info pl-3">
+                <h6 class="mb-0 title" style="color:black; text-decoration:none;"> @Model.Name</h6>
+                
+            </div>
+        </a>
+    </td>
+    <td>@Model.Country</td>
+    <td >@Model.City</td>
+</tr>

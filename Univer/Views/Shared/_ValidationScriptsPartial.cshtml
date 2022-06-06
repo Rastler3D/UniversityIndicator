@@ -1,0 +1,17 @@
+﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script defer>
+    $.validator.unobtrusive.parse($('form'));
+    success = function (data,j,t) {
+            //alert(`Status: ${xhr.status}, Status Text: ${xhr.statusText}`);
+            console.log(data);
+            console.log(j);
+            console.log(t);
+        };
+   
+   
+    var settings = $(".form-for-validation").data("validator").settings;
+        settings.errorClass += " is-invalid";
+        settings.validClass += " is-valid";
+</script>
+<script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>

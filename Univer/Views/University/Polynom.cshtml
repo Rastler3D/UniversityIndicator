@@ -1,0 +1,583 @@
+﻿@model University
+<style>
+   .w-50{
+       width:50px!important;
+   }
+   
+   select.index{
+       width:120px!important;
+        padding-left: 5px!important;
+        padding-right: 5px!important;
+        background-position: right 0.2rem center!important;
+        background-size: 8px 12px!important;
+        font-weight:bold;
+        font-size:1.2rem;
+   }
+   .w-100{
+       width:100px!important;
+   }
+
+</style>
+<div class="content-main" style="width:75%">
+<div class="card">
+    
+  <div class="card-header p-3">
+      <div class="row" style="height:420px;">
+          <div class="col-auto">
+              <form name="polynomForm">
+                <h5 class="card-title mb-4">Введите многочлены:</h5>
+                @foreach(int i in Enumerable.Range(0, 5)){
+                <p class="card-text h4" id="polynom">
+                    <select id="F" class="form-select d-inline-block index me-2 ms-2 w-50" onchange="changeU(this)">
+                        <option value="1" data-u="U2">U1(U2)</option>
+                        <option value="2" data-u="U5">U1(U5)</option>
+                        <option value="3" data-u="U7">U1(U7)</option>
+                        <option value="4" data-u="U8">U2(U8)</option>
+                        <option value="5" data-u="U9">U2(U9)</option>
+                        <option value="6" data-u="U10">U2(U10)</option>
+                        <option value="7" data-u="U2">U3(U2)</option>
+                        <option value="8" data-u="U5">U3(U5)</option>
+                        <option value="9" data-u="U10">U3(U10)</option>
+                        <option value="10" data-u="U2">U4(U2)</option>
+                        <option value="11" data-u="U5">U4(U5)</option>
+                        <option value="12" data-u="U3">U4(U3)</option>
+                        <option value="13" data-u="U2">U5(U2)</option>
+                        <option value="14" data-u="U8">U5(U8)</option>
+                        <option value="15" data-u="U10">U5(U10)</option>
+                        <option value="16" data-u="U1">U6(U1)</option>
+                        <option value="17" data-u="U7">U6(U7)</option>
+                        <option value="18" data-u="U10">U6(U10)</option>
+                        <option value="19" data-u="U1">U7(U1)</option>
+                        <option value="20" data-u="U6">U7(U6)</option>
+                        <option value="21" data-u="U10">U7(U10)</option>
+                        <option value="22" data-u="U8">U7(U8)</option>
+                        <option value="23" data-u="U11">U7(U11)</option>
+                        <option value="24" data-u="U3">U8(U3)</option>
+                        <option value="25" data-u="U4">U8(U4)</option>
+                        <option value="26" data-u="U3">U9(U3)</option>
+                        <option value="27" data-u="U4">U9(U4)</option>
+                        <option value="28" data-u="U8">U9(U8)</option>
+                        <option value="29" data-u="U11">U9(U11)</option>
+                        <option value="30" data-u="U7">U9(U7)</option>
+                        <option value="31" data-u="U10">U9(U10)</option>
+                        <option value="32" data-u="U1">U10(U1)</option>
+                        <option value="33" data-u="U6">U10(U6)</option>
+                        <option value="34" data-u="U1">U11(U1)</option>
+                        <option value="35" data-u="U7">U11(U7)</option>
+                        <option value="36" data-u="U10">U11(U10)</option>
+
+                    </select>
+                    =<input type="number" step="1" min="0" id="x3" class="form-control d-inline-block w-50 me-2 ms-2" required/><output></output><sup>3</sup>+<input type="number" step="1" min="0" id="x2"  class="form-control d-inline-block w-50 me-2 ms-2" required/><output></output><sup>2</sup>+<input type="number" step="1" id="x1"  class="form-control d-inline-block w-50 me-2 ms-2" required/><output></output><sup></sup>+<input type="number" step="1" min="0" id="x0" class="form-control d-inline-block w-50 me-2 ms-2" required/>
+                </p>
+                }
+                <div class="d-flex flex-row flex-wrap" style="max-width:630px">
+                
+                <button type="button" onclick="perturbation()" class="btn btn-primary m-3 ms-1 me-2"  data-bs-toggle="collapse" data-bs-target="#perturbationGraph" aria-expanded="false" aria-controls="collapseExample">График возмущений</button>
+                <button class="btn btn-primary m-3 ms-1 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Начальные значения</button>
+                <div class="btn-group  m-3 ms-1 me-2" id="radarButton">
+                    <button type="button" disabled class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#radarDiagram" aria-expanded="false" aria-controls="collapseExample">Лепестковая диаграмма</button>
+                    <button type="button" disabled class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                      <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end text-end" aria-labelledby="dropdownMenuReference">
+                        <li><h6 class="dropdown-header">Выберите срез</h6></li>
+                      <li><button type="button" class="dropdown-item" onclick="radarSlice(0)">0</button></li>
+                      <li><button type="button" class="dropdown-item" onclick="radarSlice(2)">0.2</button></li>
+                      <li><button type="button" class="dropdown-item" onclick="radarSlice(4)">0.4</button></li>
+                      <li><button type="button" class="dropdown-item" onclick="radarSlice(6)">0.6</button></li>
+                      <li><button type="button" class="dropdown-item" onclick="radarSlice(8)">0.8</button></li>
+                      <li><button type="button" class="dropdown-item" onclick="radarSlice(10)">1</button></li>
+                    </ul>
+                  </div>
+                <button type="button" onclick="drawChart()" class="btn btn-success m-3 ms-1 me-2">Спрогнозировать</button>
+                <button type="button" class="btn btn-danger m-3 ms-1 me-2" data-bs-toggle="collapse" data-bs-target="#redZone" aria-expanded="false" aria-controls="collapseExample">Красная зона</button>
+                </div>
+            </form>
+        </div>
+        <div class="col" id="legend-container" style="max-height:420px; overflow:overlay"></div>
+    </div>
+  </div>
+  <div class="collapse" id="collapseExample">
+
+  <div class="card card-body">
+      <div class="row p-3" style="max-height: 500px; overflow: overlay;">
+        @{
+            int i = 0;
+        }
+        @foreach (var indicator in Model.Indicators.GroupBy(x => x.Year).First(x => x.Key == DateTime.Now.Year))
+        {
+        <div class="mb-4 col-12 d-flex flex-column justify-content-between">
+            <dl class="row d-flex align-items-center mb-0">
+                <dt class="col-10 mb-3">U<sub>@(i++)</sub> - @indicator.Indicator.Name</dt>
+                <dd class="col-2 text-center mb-3">@indicator.Value</dd>
+            </dl>
+        <hr>
+        </div>
+        }  
+    </div>
+  </div>
+</div>
+<div class="collapse" id="redZone">
+    <div class="p-3">
+        <form name="redZoneForm">
+        <h3> Задайте границы красной зоны</h3>
+        <div class=" d-flex flex-wrap">
+        @foreach(int i in Enumerable.Range(1,11)){
+            <div class="card-text h4 m-3"  style="width:200px"><output>U<sub>@i</sub> = </output><input type="number" step="1" min="0" class="form-control d-inline-block w-100 me-2 ms-2" required /></div>
+        }
+        </div>
+        <button type="button" class="btn btn-primary m-3 ms-1 me-2" onclick="setRedZone()">Задать</button>
+        </form>
+    </div>
+</div>
+  <div class="card-body">
+    <canvas id="myChart" width="400" height="0"></canvas>
+
+
+  </div>
+  <div class="collapse" id="perturbationGraph">
+        <canvas id="myChart2" width="400" height="0"></canvas>
+  </div>
+  <div class="collapse container" id="radarDiagram">
+      <canvas id="myChart3" width="400" height="0"></canvas>
+</div>
+</div>
+@section Scripts{
+<script src="~/lib/Chart.js/chart.min.js"></script>
+<script>
+    let redZone = [60,30,15,18,12,40,60,55,30,21,25]
+    let dataset;
+    const CHART_COLORS = {
+            red: 'rgb(255, 0, 0)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)',
+            brown: 'rgb(128,64,0)',
+            pink: 'rgb(255,128,192)',
+            violet: 'rgb(128,0,255)',
+            khaki: 'rgb(128,128,64)'
+        };
+     const getOrCreateLegendList = (chart, id) => {
+        const legendContainer = document.getElementById(id);
+        let listContainer = legendContainer.querySelector('ul');
+
+        if (!listContainer) {
+        listContainer = document.createElement('ul');
+        listContainer.style.display = 'flex';
+        listContainer.style.flexDirection = 'column';
+        listContainer.style.flexWrap = 'wrap';
+        listContainer.style.margin = 0;
+        listContainer.style.padding = 0;
+
+        legendContainer.appendChild(listContainer);
+        }
+
+        return listContainer;
+    };
+
+    const htmlLegendPlugin = {
+        id: 'htmlLegend',
+        afterUpdate(chart, args, options) {
+            const ul = getOrCreateLegendList(chart, options.containerID);
+
+            // Remove old legend items
+            while (ul.firstChild) {
+                ul.firstChild.remove();
+            }
+
+            // Reuse the built-in legendItems generator
+            const items = chart.options.plugins.legend.labels.generateLabels(chart);
+
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.style.alignItems = 'center';
+                li.style.cursor = 'pointer';
+                li.style.display = 'flex';
+                li.style.flexDirection = 'row';
+                li.style.marginLeft = '10px';
+
+                li.onclick = () => {
+                const {type} = chart.config;
+                if (type === 'pie' || type === 'doughnut') {
+                    // Pie and doughnut charts only have a single dataset and visibility is per item
+                    chart.toggleDataVisibility(item.index);
+                } else {
+                    chart.setDatasetVisibility(item.datasetIndex, !chart.isDatasetVisible(item.datasetIndex));
+                }
+                chart.update();
+                };
+
+                // Color box
+                const boxSpan = document.createElement('span');
+                boxSpan.style.background = item.fillStyle;
+                boxSpan.style.borderColor = item.strokeStyle;
+                boxSpan.style.borderWidth = item.lineWidth + 'px';
+                boxSpan.style.display = 'inline-block';
+                boxSpan.style.height = '25px';
+                boxSpan.style.marginRight = '10px';
+                boxSpan.style.width = '25px';
+                boxSpan.style.minWidth = '25px';
+
+                // Text
+                const textContainer = document.createElement('p');
+                textContainer.style.color = item.fontColor;
+                textContainer.style.margin = 0;
+                textContainer.style.padding = 0;
+                textContainer.style.fontSize = '20px';
+                textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
+                textContainer.style.fontWeight = '500';
+                textContainer.style.marginBottom = '10px';
+
+
+                const text = document.createTextNode(item.text);
+                textContainer.appendChild(text);
+
+                li.appendChild(boxSpan);
+                li.appendChild(textContainer);
+                ul.appendChild(li);
+            });
+        }
+    };
+    const data = {
+        labels: [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],
+        datasets: [{
+            label: 'U1 - Средний балл единого государственного экзамена студентов, принятых по результатам единого государственного экзамена на обучение по очной форме по программам бакалавриата и специалитета за счет бюджетных ассигнований бюджетов бюджетной системы Российской Федерации',
+            borderColor: CHART_COLORS.red,
+            backgroundColor: CHART_COLORS.red,
+        },
+        {
+            label: 'U2 - Динамика роста числа публикаций учреждений, индексируемых в информационно- аналитической системе научного цитирования Web of Science, в расчете на 100 научно-педагогических работников',
+            borderColor: CHART_COLORS.orange,
+            backgroundColor: CHART_COLORS.orange,
+        },
+        {
+            label: 'U3 - Темп прироста поступлений средств от приносящей доход деятельности',
+            borderColor: CHART_COLORS.yellow,
+            backgroundColor: CHART_COLORS.yellow,
+        },
+        {
+            label: 'U4 - Динамика роста (увеличения) доходов от научно-исследовательских и опытно-конструкторских работ по сравнению с предыдущим периодом в расчете на одного научно-педагогического работника',
+            borderColor: CHART_COLORS.green,
+            backgroundColor: CHART_COLORS.green,
+        },
+        {
+            label: 'U5 - Доля цитирований публикаций, изданных за последние 5 лет, индексируемых в информационно-аналитической системе научного цитирования Web of Science, в расчете на 100 научно-педагогических работников',
+            borderColor: CHART_COLORS.blue,
+            backgroundColor: CHART_COLORS.blue,
+        },
+        {
+            label: 'U6 - Средний балл единого государственного экзамена студентов, принятых по результатам единого государственного экзамена на обучение по очной форме по программам бакалавриата и специалитета с оплатой стоимости затрат на обучение физическими и юридическими лицами',
+            borderColor: CHART_COLORS.purple,
+            backgroundColor: CHART_COLORS.purple,
+        },
+        {
+            label: 'U7 - Доля трудоустроенных выпускников учреждения',
+            borderColor: CHART_COLORS.grey,
+            backgroundColor: CHART_COLORS.grey,
+        },
+        {
+            label: 'U8 - Доля педагогических работников из числа профессорско- преподавательского состава, средняя заработная плата которых по итогам календарного года составляет 200% и более от средней заработной платы в соответствующем субъекте Российской Федерации',
+            borderColor: CHART_COLORS.brown,
+            backgroundColor: CHART_COLORS.brown,
+        },
+        {
+            label: 'U9 - Доля работников в возрасте до 39 лет в общей численности научно- педагогических работников',
+            borderColor: CHART_COLORS.pink,
+            backgroundColor: CHART_COLORS.pink,
+        },
+        {
+            label: 'U10 - Доля студентов, принятых по результатам целевого приема на первый курс на очную форму обучения по программам бакалавриата и специалитета в общей численности студентов, принятых на первый курс по программам бакалавриата и специалитета на очную форму обучения',
+            borderColor: CHART_COLORS.violet,
+            backgroundColor: CHART_COLORS.violet,
+        },
+        {
+            label: 'U11 - Удельный вес численности обучающихся по программам магистратуры, подготовки научных и научно-педагогических кадров в аспирантуре, ординатуры, интернатуры, ассистентуры-стажировки в общей численности обучающихся по образовательным программам высшего образования',
+            borderColor: CHART_COLORS.khaki,
+            backgroundColor: CHART_COLORS.khaki,
+        }
+        ]
+    };
+    const data2 = {
+        labels: Array.from({length: 100}, (v, k) => k/100),
+        datasets: [{
+            label: 'Увеличение бюджетных мест',
+            borderColor: CHART_COLORS.red,
+            backgroundColor: CHART_COLORS.red,
+        },
+        {
+            label: 'Санкции',
+            borderColor: CHART_COLORS.purple,
+            backgroundColor: CHART_COLORS.purple,
+        },
+        {
+            label: 'Падение курса рубля',
+            borderColor: CHART_COLORS.green,
+            backgroundColor: CHART_COLORS.green,
+        }]
+    };
+    const data3 = {
+      labels: [
+        'U1',
+        'U2',
+        'U3',
+        'U4',
+        'U5',
+        'U6',
+        'U7',
+        'U8',
+        'U9',
+        'U10',
+        'U11'
+      ],
+      datasets: [{
+        label: 'Значения показателей',
+        fill: true,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgb(54, 162, 235)',
+        pointBackgroundColor: 'rgb(54, 162, 235)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgb(54, 162, 235)'
+      }, {
+        label: 'Красная зона',
+        data: redZone,
+        fill: false,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)', 
+        pointBackgroundColor: 'rgb(255, 99, 132)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgb(255, 99, 132)'
+      }]
+    };
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const ctx3 = document.getElementById('myChart3').getContext('2d');
+    
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            
+            scales: {
+                
+                y: {
+                    min: 0,
+                    max: 100,
+                    title:{
+                        display:true,
+                        text: 'Значение показателей',
+                        font:{
+                            size:25
+                        }
+                    }
+                },
+                x: {
+                    title:{
+                        display:true,
+                        text: 'Время',
+                        font:{
+                            size:25
+                        }
+                    }
+                },
+               
+            },
+            plugins: {
+                htmlLegend: {
+                // ID of the container to put the legend in
+                containerID: 'legend-container',
+                },
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: 'График изменения показателей',
+                    font:{
+                        size:30
+                    }
+                }
+
+            }
+        },
+        plugins: [htmlLegendPlugin],
+    };
+    const config2 = {
+      type: 'line',
+      data: data2,
+      options: {
+        scales: {    
+            y: {
+                min: 0,
+                max: 1,
+                title:{
+                    display:true,
+                    text: 'Значения',
+                    font:{
+                        size:25
+                    }
+                }
+            },
+            x: {
+                title:{
+                    display:true,
+                    text: 'Время',
+                    font:{
+                        size:25
+                    }
+                }
+            }
+               
+        },
+        elements:{
+                point:{
+                    radius:0
+                }
+            },
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'График возмущений',
+            font:{
+                size:30
+            }
+          }
+        }
+      },
+    };
+    const config3 = {
+      type: 'radar',
+      data: data3,
+      options: {
+        elements: {
+          line: {
+            borderWidth: 3
+          }
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true, 
+            font:{
+                size:30
+            }
+          }
+        }
+      },
+    };
+    const myChart = new Chart(ctx,config);
+    const myChart2 = new Chart(ctx2,config2);
+    const myChart3 = new Chart(ctx3,config3);
+    
+    async function drawChart(){
+        let map = {};
+        document.querySelectorAll("#polynom").forEach(x=>{
+            let list = [];
+            list.push(x.querySelector("#x3").value);
+            list.push(x.querySelector("#x2").value);
+            list.push(x.querySelector("#x1").value);
+            list.push(x.querySelector("#x0").value);
+            let keyEl = x.querySelector("#F");
+            if(map.hasOwnProperty(keyEl.value)){
+                keyEl.setCustomValidity("Значение поля должно быть уникальным");
+            }
+            else{
+                 keyEl.setCustomValidity("");
+            }
+            map[x.querySelector("#F").value]=list;
+        });
+        if(document.polynomForm.reportValidity()){
+            let body = JSON.stringify({
+                    universityId: @Model.Id,
+                    polynom: map
+                });
+        
+            dataset = (await fetch("/api/home/chart",{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body
+            }).then(x => x.json())).map(x => x.map(x=>x*100));
+            console.log(dataset);
+            myChart.data.datasets.forEach((chartDataset,index) => {
+                chartDataset.data = dataset[index];
+            });
+            myChart.update();
+            enableRadar();
+        }  
+    };
+    function fak1(t){
+        if (t <= 0.3){
+            return 0.1;
+        }
+        if (t > 0.3){
+            return 0.8;
+        }
+    }
+    function fak2(t){
+        if (t <= 0.4){
+            return 0.1;
+        }
+        if (t > 0.4 && t <= 0.6){
+            return 0.5; 
+        }
+        if (t > 0.6){
+            return 0.9;
+        }
+    }
+    function fak3(t){
+        if(t <= 0.2){
+            return 0.9;
+        }
+        if (t > 0.2 && t<= 0.7){
+            return 0.5;
+        }
+        if (t > 0.7){
+            return 0.2;
+        }
+    }
+    function perturbation(){
+        const range = Array.from({length: 100}, (v, k) => k/100) ;
+        myChart2.data.datasets[0].data=range.map(x=>fak1(x));
+        myChart2.data.datasets[1].data=range.map(x=>fak2(x));
+        myChart2.data.datasets[2].data=range.map(x=>fak3(x));
+        myChart2.update();
+    };
+    function changeU(e){
+       let inputs = e.parentElement.querySelectorAll("output").forEach(x=>x.innerHTML = e.options[e.selectedIndex].dataset.u.replace(/\d+/,"<sub>$&<sub>"));
+
+    }
+    function enableRadar(){
+        radarSlice(0);
+        document.querySelectorAll("#radarButton button").forEach(x=>x.disabled=false);
+    }
+    function setRedZone(){
+        redZone = [...document.redZoneForm.querySelectorAll("input")].map(x=>x.value);
+        console.log(redZone);
+        myChart3.data.datasets[1].data = redZone;
+        myChart3.update();
+        
+    }
+    function radarSlice(sliceIndex){
+        myChart3.options.plugins.title.text = `Диаграмма в момент времени t = ${sliceIndex/10}`;
+        let sliceDataset = dataset.map(x=>x[sliceIndex]);
+        myChart3.data.datasets[0].data = sliceDataset;
+        myChart3.update();
+    }
+    document.querySelectorAll("#F").forEach(x=>x.onchange());
+    
+   
+</script>
+}

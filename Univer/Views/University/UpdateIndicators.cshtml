@@ -1,0 +1,74 @@
+﻿
+@model IEnumerable<UniversityIndicatorsViewModel>
+
+@{
+    ViewData["Title"] = "AddIndicators";
+}
+<section class="container">
+
+	
+
+	<div class="card mb-4">
+    <article class="card-body p-4">
+        <h2 class="mb-4">Добавление показателей университета</h2>
+            <input type="hidden" name="UniversityId"/>
+            <div class="mb-5 row text-end justify-content-end">
+                <label for="yearSelect" class="col-2 col-form-label">Год</label>
+                <div class="col-3">
+                    <select name="Year" class="form-select" id="yearSelector" onchange="yearSelect(this.value)">
+                    @foreach(var indicators in Model){
+                        <option value="@indicators.Year">@indicators.Year</option>
+                    } 
+                    </select>
+                </div>
+                  
+            </div>
+            <div class="container">
+                <div class="Years">
+                    @foreach(var indicators in Model){
+                        <form  class="form-for-validation Year" data-year="@indicators.Year" id="@indicators.Year" asp-controller="University" asp-action="UpdateIndicators">
+                        <input type="hidden" name="UniversityId" value="@indicators.UniversityId"/>
+                        <input type="hidden" name="Year" value="@indicators.Year"/>
+                        <div class="row gx-5" >
+                        @for(int index = 0 ; index < indicators.Indicators.Count; index++){
+                            <div class="mb-4 col-6 d-flex flex-column justify-content-between"  >
+                                <div class="row">
+                                    <input type="hidden" name="Indicators[@index].UniversityIndicatorId" value="@indicators.Indicators[index].UniversityIndicatorId">
+                                    <input type="hidden" name="Indicators[@index].Indicator.Id" value="@indicators.Indicators[index].Indicator.Id">
+                                    <label for="yearSelect" class="col-9 col-form-label">@indicators.Indicators[index].Indicator.Name</label>
+                                    <div class="col-3 col-form-label">
+                                        <div class="input-group mb-3">
+                                            <input type="number" class="form-control" placeholder="Значение показателя" name="Indicators[@index].Value" value="@indicators.Indicators[index].Value" />
+                                            <span class="input-group-text">%</span>
+                                   
+                                        </div> 
+                                         <span asp-validation-for="@indicators.Indicators[index].Value" class="invalid-feedback"></span>
+                                    </div>
+                                </div>
+                            <hr>
+                            </div>
+                        }
+                        </div>
+                        </form>
+                    }
+                </div>
+            </div>
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+            <div class="row mb-2 text-end">
+                <div class="col-9 offset-3"> <button id="submitButton" type="submit" class="btn btn-primary">Добавить</button> <a
+                         href="@Context.Request.Headers["referer"]" class="btn btn-outline-danger">Cancel</a> </div> <!-- col end.// -->
+            </div> <!-- row end.// -->
+    </article> <!-- card-body end .// -->
+</div><!-- card end// -->
+
+
+</section>
+@section Scripts{
+    <script>
+        document.getElementById("yearSelector").onchange();
+        function yearSelect(year){
+            document.querySelectorAll(".Years>.Year").forEach(x=>x.dataset.year == year?x.hidden=false:x.hidden=true);   
+            document.getElementById("submitButton").setAttribute("form",year);
+        }
+    </script>
+}

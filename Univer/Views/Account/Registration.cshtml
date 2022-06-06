@@ -1,0 +1,65 @@
+﻿@model Registration
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content rounded-5 shadow">
+      <div class="modal-header p-5 pb-4 pt-4 border-bottom-0">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <h2 class="fw-bold mb-0">Регистрация</h2>
+        <a href="@Context.Request.Query["ReturnUrl"].FirstOrDefault("/Product/Index")" class="btn-close" aria-label="Close"></a>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form class="row gx-3 form-for-validation"  method="post">
+        <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-4" id="FirstName" placeholder="Иван" asp-for="FirstName" >
+                <label for="FirstName">Имя</label>
+                <span asp-validation-for="FirstName" class="invalid-feedback"></span>
+              </div>
+        </div>
+        <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-4" id="LastName" placeholder="Иванов" asp-for="LastName">
+                <label for="LastName">Фамилия</label>
+                <span asp-validation-for="LastName" class="invalid-feedback"/></span>
+              </div>
+          </div>
+      
+          <div class="col-md-12">
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control rounded-4" id="Email" placeholder="name@example.com" asp-for="Email">
+                <label for="Email">Email адрес</label>
+                <span asp-validation-for="Email" class="invalid-feedback"/></span>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control rounded-4" id="Password" placeholder="Password" asp-for="Password">
+                <label for="Password">Пароль</label>
+                <span asp-validation-for="Password" class="invalid-feedback"/></span>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control rounded-4" id="ConfirmPassword" placeholder="Password" asp-for="ConfirmPassword">
+                <label for="ConfirmPassword">Подтвердите пароль</label>
+                <span asp-validation-for="ConfirmPassword" class="invalid-feedback"/></span>
+              </div>
+          </div>
+          
+           <div class="col-md-12">
+               <div class="validation" asp-validation-summary="ModelOnly"></div>
+          </div>
+          
+          <div class="col-md-12 ">
+          <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit"  asp-route-ReturnUrl='@Context.Request.Query["ReturnUrl"]'>Зарегистрироваться</button>
+          <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+         
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
